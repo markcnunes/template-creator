@@ -1,9 +1,9 @@
 const addItemInput = document.querySelector('.addItemInput');
 const addItemButton = document.querySelector('.addItemButton');
-const generateCode = document.querySelector('.generateCode');
+const copyText = document.querySelector('.generateCode');
 const listUl = document.querySelector('.list');
 const list = listUl.children;
-
+const listCopy = document.querySelectorAll('span');
 
 //FUNCTION: Generate value/items = Draggable, Checkbox, Remove button
 const attachItemListButton = (item) => {
@@ -33,29 +33,27 @@ for (let i = 0; i < list.length; i += 1) {
 
 
 //Checking if there are checked items
-let generateCodeFromList = "";
-generateCode.addEventListener('click', () => {
-
-    for (let i = 0; i < list.length; i += 1) {
-        
-        if (list[i].querySelector("input:checked")) {
-            list[i].style.backgroundColor = 'green';
-            generateCodeFromList += list[i].textContent + ',';
-        }
+copyText.addEventListener('click', () => {
+  let copyTextFromList = "";
+  for (let i = 0; i < listCopy.length; i += 1) {
+    if (listCopy[i].parentNode.querySelector("input:checked")) {
+      listCopy[i].style.backgroundColor = 'green';
+      copyTextFromList += listCopy[i].textContent + ',';
     }
-    console.log('working');
-    console.log(generateCodeFromList);
+  }
+  console.log(copyTextFromList);
 });
 
 
 //Add item from the input field to the list
 addItemButton.addEventListener('click', () => {
-    let ul = document.getElementsByTagName('ul')[0];
-    let li = document.createElement('li');
-    li.textContent = addItemInput.value;
-    ul.appendChild(li);
-    attachItemListButton(li);
-    addItemInput.value = '';
+  let li = document.createElement('li');
+  let span = document.createElement('span');
+  span.textContent = addItemInput.value;
+  listUl.appendChild(li);
+  li.appendChild(span);
+  attachItemListButton(li);
+  addItemInput.value = '';
 });
 
 
