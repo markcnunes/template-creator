@@ -3,24 +3,54 @@
 
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Teamplate Creator - Js</title>
 
   <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU"
+    crossorigin="anonymous">
+
 </head>
 
 <body>
+  <!-- LIST -->
+  <div class="info">
+    <h2 class="title">Info</h2>
+    <div class="inner">
+      <ul class="list">
+        <li><span>Header</span></li>
+        <li><span>Hero</span></li>
+        <li><span>Intro</span></li>
+        <li><span>Footer</span></li>
+      </ul>
+      <hr>
+      <input type="text" class="addItemInput" placeholder="Item description">
+      <button class="addItemButton btn">Add item</button>
+      <button class="generateCode btn">Generate code</button>
+    </div>
+  </div>
 
-  <ul class="list">
-    <li><span>Header</span></li>
-    <li><span>Hero</span></li>
-    <li><span>Intro</span></li>
-    <li><span>Footer</span></li>
-  </ul>
-
-  <input type="text" class="addItemInput" placeholder="list description">
-  <button class="addItemButton">Add list description</button>
-  <button class="generateCode">Generate code</button>
-
+  <!-- CODE -->
+  <div class="code">
+    <h2 class="title">Code</h2>
+    <div class="inner">
+      <div class="row panels-back">
+        <h2>Panels Backoffice</h2>
+        <div class="wrapper">
+          <p></p>
+          <button class="copyTextArea btn"><i class="far fa-clone"></i></button>
+        </div>
+      </div>
+      <div class="row panels-scss">
+        <h2>Panels SCSS</h2>
+        <div class="wrapper">
+          <p></p>
+          <button class="copyTextArea btn"><i class="far fa-clone"></i></button>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <script src="js/index.js"></script>
 </body>

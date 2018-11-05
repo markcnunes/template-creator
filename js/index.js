@@ -1,16 +1,25 @@
+// VARIABLES
+// --------------------------------------------------
 const addItemInput = document.querySelector('.addItemInput');
 const addItemButton = document.querySelector('.addItemButton');
+const copyTextArea = document.querySelectorAll('.copyTextArea');
 const copyText = document.querySelector('.generateCode');
 const listUl = document.querySelector('.list');
 const list = listUl.children;
-const listCopy = document.querySelectorAll('span');
+let listCopy = listUl.getElementsByTagName('span');
+const panelsBack = document.querySelector('.panels-back p');
+const panelsScss = document.querySelector('.panels-scss p');
 
-//FUNCTION: Generate value/items = Draggable, Checkbox, Remove button
+
+// GENERATE AND COLLECT INFORMATION FROM INFO TO CODE SECTIONS
+// --------------------------------------------------
+//Generate value/items = Draggable, Checkbox, Remove button
 const attachItemListButton = (item) => {
 
     //Draggable
     item.draggable = "true";
     item.classList.add("list--item");
+    addDnDHandlers(item);
 
     //Checkbox
     let checkbox = document.createElement('input');
@@ -23,27 +32,27 @@ const attachItemListButton = (item) => {
 
     //Remove button
     let remove = document.createElement('button');
-    remove.className = 'remove';
-    remove.textContent = 'Delete';
+    remove.className = 'remove btn far fa-trash-alt';
+    remove.textContent = '';
     item.appendChild(remove);
 };
 for (let i = 0; i < list.length; i += 1) {
     attachItemListButton(list[i]);
 }
 
-
-//Checking if there are checked items
-copyText.addEventListener('click', () => {
-  let copyTextFromList = "";
-  for (let i = 0; i < listCopy.length; i += 1) {
-    if (listCopy[i].parentNode.querySelector("input:checked")) {
-      listCopy[i].style.backgroundColor = 'green';
-      copyTextFromList += listCopy[i].textContent + ',';
+//Edit Text on double click
+const editText = () => {
+  let elements = list;
+  for (let i = 0; i < elements.length; i++) {
+    elements[i].ondblclick = function () {
+      let textBox = prompt('How would you like to call this element?');
+      let elementParent = elements[i].parentNode;
+      let textEl = elementParent.querySelector('span');
+      textEl.textContent = textBox;
     }
-  }
-  console.log(copyTextFromList);
-});
-
+  };
+}
+editText();
 
 //Add item from the input field to the list
 addItemButton.addEventListener('click', () => {
@@ -56,22 +65,36 @@ addItemButton.addEventListener('click', () => {
   addItemInput.value = '';
 });
 
-
-//Function to interact with the Remove button
+//Remove button
 listUl.addEventListener('click', (event) => {
     if (event.target.tagName == 'BUTTON') {
-        if (event.target.className == 'remove') {
+        //if (event.target.className == 'remove') {
             let li = event.target.parentNode;
             let ul = li.parentNode;
             ul.removeChild(li);
-        }
+        //}
     }
 });
 
+//Copy text from checked items
+copyText.addEventListener('click', () => {
+  let copyTextPanelBack = "";
+  let copyTextPanelScss = "";
+  for (let i = 0; i < listCopy.length; i += 1) {
+    if (listCopy[i].parentNode.querySelector("input:checked")) {
+      copyTextPanelBack += listCopy[i].textContent + ',';
+      copyTextPanelScss += listCopy[i].textContent + '+ TEST +';
+    }
+  }
+  panelsBack.innerHTML = copyTextPanelBack;
+  panelsScss.innerHTML = copyTextPanelScss;
+});
 
-//FUNCTION: Drag and drog Items
+
+// DRAG AND DROP ITEMS
+// --------------------------------------------------
 //Source: https://codepen.io/jbartels/pen/yPemMB
-let dragSourceElement = null;
+var dragSourceElement = null;
 
 function handleStart(e) {
   dragSourceElement = this;
@@ -99,9 +122,9 @@ function handleDrop(e) {
   }
   if (dragSourceElement != this) {
     this.parentNode.removeChild(dragSourceElement);
-    let dropHTML = e.dataTransfer.getData('text');
+    var dropHTML = e.dataTransfer.getData('text');
     this.insertAdjacentHTML('beforebegin',dropHTML);
-    let dropElem = this.previousSibling;
+    var dropElem = this.previousSibling;
     addDnDHandlers(dropElem);
   }
   this.classList.remove('over');
@@ -122,4 +145,36 @@ function addDnDHandlers(elem) {
 
 }
 
-[].forEach.call(list, addDnDHandlers);
+for (let i = 0; i < list.length; i += 1) {
+  addDnDHandlers(list[i]);
+}
+
+
+// COPY TEXT FROM TEXT AREA
+// --------------------------------------------------
+
+const copyToClipboard = str => {
+  const el = document.createElement('textarea');
+  el.value = str;
+  document.body.appendChild(el);
+  el.select();
+  document.execCommand('copy');
+  document.body.removeChild(el);
+};
+//Animation when copied
+const copyAnimation = (e) => {
+    e.parentNode.classList.add('copied');
+    setTimeout(function(){  e.parentNode.classList.remove('copied'); }, 1000);
+};
+//Loop for copyTextArea buttons to affect only the elements targeted
+for (let i = 0; i < copyTextArea.length; i += 1) {
+  copyTextArea[i].addEventListener('click', () => {
+    let wrapper = copyTextArea[i].parentNode;
+    let textEl = wrapper.querySelector('p');
+
+    copyToClipboard(textEl.textContent);
+    copyAnimation(textEl);
+  });
+}
+
+

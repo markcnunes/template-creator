@@ -1,0 +1,78 @@
+.info {
+    width: 30%;
+
+    .title {
+        padding: 15px;
+    }
+
+    .inner {
+        display: flex;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        background: $color-gray;
+        border: 1px solid $color-gray-3;
+        border-radius: 5px;
+        padding: 15px;
+    }
+
+    .list {
+        width: 100%;
+        list-style-type: none;
+        padding: 0;
+
+        .list--item {
+            font-size: $font-size-small;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: auto;
+            margin: 5px auto;
+            padding: 5px 8px;
+            cursor: move;
+            background: $color-gray-5;
+            border-radius: 5px;
+            border: 1px solid $color-gray-3;
+        }
+
+        input#id {
+            margin: auto 5px auto 0;
+        }
+
+        .draggingElement {
+            opacity: 0.4;
+        }
+
+        .over {
+            border-bottom: 2px dotted $color-blue;
+        }
+
+        .remove {
+            background: $color-black;
+            margin: auto 0 auto auto;
+        }
+    }
+
+    hr {
+        width: 95%;
+        margin: 6px auto 10px;
+    }
+
+    .addItemInput {
+        width: 65%;
+        border-radius: 5px 0 0 5px;
+        text-indent: 10px;
+        border: 1px solid $color-blue;
+    }
+
+    .addItemButton {
+        width: 35%;
+        border-radius: 0 5px 5px 0;
+        background: $color-blue;
+    }
+
+    .generateCode {
+        width: 100%;
+        background: $color-green;
+        margin-top: 10px;
+    }
+}
