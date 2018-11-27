@@ -4,8 +4,8 @@ const addItemInput = document.querySelector('.addItemInput');
 const addItemButton = document.querySelector('.addItemButton');
 const copyTextArea = document.querySelectorAll('.copyTextArea');
 const copyText = document.querySelector('.generateCode');
-const listUl = document.querySelector('.list');
-const list = listUl.children;
+const listUl = document.getElementsByClassName('list')[0];
+const list = listUl.getElementsByTagName('li');
 let listCopy = listUl.getElementsByTagName('span');
 const panelsBack = document.querySelector('.panels-back p');
 const panelsScss = document.querySelector('.panels-scss p');
@@ -13,6 +13,93 @@ const panelsScss = document.querySelector('.panels-scss p');
 
 // GENERATE AND COLLECT INFORMATION FROM INFO TO CODE SECTIONS
 // --------------------------------------------------
+
+//Edit Text on double click
+const editText = () => {
+  let elements = list;
+  for (let i = 0; i < elements.length; i++) {
+    elements[i].ondblclick = function () {
+      let textBox = prompt('How would you like to call this element?');
+      let elementParent = elements[i].parentNode;
+      let textEl = elementParent.querySelector('span');
+      textEl.textContent = textBox;
+    }
+  };
+}
+editText();
+
+//Get index of clicked element using pure javascript
+//https://stackoverflow.com/questions/8801787/get-index-of-clicked-element-using-pure-javascript
+
+
+var g = document.getElementById('my_div');
+for (var i = 0, len = g.children.length; i < len; i++)
+{
+
+    (function(index){
+        g.children[i].onclick = function(){
+              alert(index)  ;
+        }    
+    })(i);
+
+}
+
+
+
+
+
+
+
+window.onload = function () {
+  var elements = getElementsByClassName('editInPlace', '*', document);
+  for (var i = 0; i < elements.length; i++) {
+    elements[i].ondblclick = function () {
+      this.setAttribute('oldText', this.innerHTML); // not actually required. I use this just in case you want to cancel and set the original text back.
+      var textBox = document.createElement('INPUT');
+      textBox.setAttribute('type', 'text');
+      textBox.value = this.innerHTML;
+      textBox.onblur = function () {
+        var newValue = this.value;
+        this.parentNode.innerHTML = newValue;
+      }
+
+      this.innerHTML = '';
+
+      this.appendChild(textBox);
+    }
+  } (i);
+}
+function getElementsByClassName(className, tag, elm) {
+  var testClass = new RegExp("(^|\\s)" + className + "(\\s|$)");
+  var tag = tag || "*";
+  var elm = elm || document;
+  var elements = (tag == "*" && elm.all) ? elm.all : elm.getElementsByTagName(tag);
+  var returnElements = [];
+  var current;
+  var length = elements.length;
+  for (var i = 0; i < length; i++) {
+    current = elements[i];
+    if (testClass.test(current.className)) {
+      returnElements.push(current);
+    }
+  }
+  return returnElements;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 //Generate value/items = Draggable, Checkbox, Remove button
 const attachItemListButton = (item) => {
 
@@ -35,24 +122,13 @@ const attachItemListButton = (item) => {
     remove.className = 'remove btn far fa-trash-alt';
     remove.textContent = '';
     item.appendChild(remove);
+
+    editText();
+
 };
 for (let i = 0; i < list.length; i += 1) {
     attachItemListButton(list[i]);
 }
-
-//Edit Text on double click
-const editText = () => {
-  let elements = list;
-  for (let i = 0; i < elements.length; i++) {
-    elements[i].ondblclick = function () {
-      let textBox = prompt('How would you like to call this element?');
-      let elementParent = elements[i].parentNode;
-      let textEl = elementParent.querySelector('span');
-      textEl.textContent = textBox;
-    }
-  };
-}
-editText();
 
 //Add item from the input field to the list
 addItemButton.addEventListener('click', () => {
