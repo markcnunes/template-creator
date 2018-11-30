@@ -1,0 +1,190 @@
+/*
+0 - 600px:      Phone
+600 - 900px:    Tablet portrait
+900 - 1200px:   Tablet landscape
+[1200 - 1800] is where our normal styles apply
+1800px + :      Big desktop
+
+$breakpoint arguement choices:
+- phone
+- tab-port
+- tab-land
+- big-desktop
+
+ORDER: Base + typography > general layout + grid > page layout > components
+
+1em = 16px
+*/
+@import url("https://fonts.googleapis.com/css?family=Heebo:300,400,700");
+@keyframes fad-out-blue {
+  from {
+    background-color: #1b70ee; }
+  to {
+    background-color: rgba(27, 112, 238, 0); } }
+
+*,
+*::after,
+*::before {
+  margin: 0;
+  padding: 0;
+  box-sizing: inherit; }
+
+html {
+  font-size: 62.5%; }
+  @media only screen and (max-width: 75em) {
+    html {
+      font-size: 56.25%; } }
+  @media only screen and (max-width: 56.25em) {
+    html {
+      font-size: 50%; } }
+  @media only screen and (min-width: 112.5em) {
+    html {
+      font-size: 75%; } }
+
+body {
+  box-sizing: border-box;
+  padding: 50px 3rem;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap; }
+  @media only screen and (max-width: 56.25em) {
+    body {
+      padding: 0; } }
+
+::selection {
+  background-color: #3aa077;
+  color: #fff; }
+
+[draggable] {
+  -moz-user-select: none;
+  -khtml-user-select: none;
+  -webkit-user-select: none;
+  user-select: none;
+  -khtml-user-drag: element;
+  -webkit-user-drag: element; }
+
+/* Google fonts */
+body {
+  font-family: "Heebo", sans-serif;
+  font-weight: 400;
+  font-size: 1.6rem;
+  color: black; }
+
+h2 {
+  font-weight: 700;
+  font-size: 1.5rem;
+  text-transform: uppercase; }
+
+h3 {
+  font-weight: 700;
+  font-size: 1.25rem;
+  text-transform: uppercase; }
+
+.btn, .btn:link, .btn:visited {
+  text-decoration: none;
+  display: inline-block;
+  color: #fff;
+  padding: 5px;
+  border-radius: 5px;
+  transition: all .2s;
+  position: relative;
+  font-size: 1.35rem;
+  font-family: "Heebo", sans-serif;
+  border: none;
+  cursor: pointer; }
+
+.btn:active, .btn:focus {
+  outline: none; }
+
+.info {
+  width: 30%; }
+  .info .title {
+    padding: 15px; }
+  .info .inner {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    background: #f5f5f5;
+    border: 1px solid #cacaca;
+    border-radius: 5px;
+    padding: 15px; }
+  .info .list {
+    width: 100%;
+    list-style-type: none;
+    padding: 0; }
+    .info .list .list--item {
+      font-size: 1.2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      width: auto;
+      margin: 5px auto;
+      padding: 5px 8px;
+      cursor: move;
+      background: #fafafa;
+      border-radius: 5px;
+      border: 1px solid #cacaca; }
+    .info .list input#id {
+      margin: auto 5px auto 0; }
+    .info .list .draggingElement {
+      opacity: 0.4; }
+    .info .list .over {
+      border-bottom: 2px dotted #1b70ee; }
+    .info .list .remove {
+      background: #2D3142;
+      margin: auto 0 auto auto; }
+  .info hr {
+    width: 95%;
+    margin: 6px auto 10px; }
+  .info .addItemInput {
+    width: 65%;
+    border-radius: 5px 0 0 5px;
+    text-indent: 10px;
+    border: 1px solid #1b70ee; }
+  .info .addItemButton {
+    width: 35%;
+    border-radius: 0 5px 5px 0;
+    background: #1b70ee; }
+  .info .generateCode {
+    width: 100%;
+    background: #3aa077;
+    margin-top: 10px; }
+
+.code {
+  width: 67%;
+  display: block; }
+  .code .title {
+    padding: 15px; }
+  .code h2:not([class*="title"]) {
+    margin-bottom: 10px;
+    font-weight: 400;
+    text-transform: capitalize; }
+  .code .inner {
+    border: 1px solid #cacaca;
+    border-radius: 5px 8px;
+    padding: 15px; }
+  .code .row {
+    margin-bottom: 15px; }
+  .code .wrapper {
+    display: flex;
+    background: #f5f5f5;
+    padding: 5px;
+    border-radius: 5px;
+    border: 1px solid #cacaca;
+    min-height: 20px;
+    font-weight: 300; }
+    .code .wrapper p {
+      width: 90%;
+      min-height: 24px; }
+  .code .copyTextArea {
+    background: #596069;
+    margin: 0 0 0 auto;
+    padding: 0 5px 0 7px; }
+    .code .copyTextArea:hover:after:not(i) {
+      content: "Copy";
+      display: block;
+      font-family: "Heebo", sans-serif; }
+  .code .copied {
+    background-color: #1b70ee;
+    animation-name: fad-out-blue;
+    animation-duration: 2; }

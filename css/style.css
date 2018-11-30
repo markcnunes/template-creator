@@ -18,7 +18,7 @@ ORDER: Base + typography > general layout + grid > page layout > components
 @import url("https://fonts.googleapis.com/css?family=Heebo:300,400,700");
 @keyframes fad-out-blue {
   from {
-    background-color: #1b70ee; }
+    background-color: rgba(27, 112, 238, 0.3); }
   to {
     background-color: rgba(27, 112, 238, 0); } }
 
@@ -42,14 +42,14 @@ html {
       font-size: 75%; } }
 
 body {
+  box-sizing: border-box; }
+
+main {
   box-sizing: border-box;
   padding: 50px 3rem;
   display: flex;
   justify-content: space-between;
   flex-wrap: wrap; }
-  @media only screen and (max-width: 56.25em) {
-    body {
-      padding: 0; } }
 
 ::selection {
   background-color: #3aa077;
@@ -67,18 +67,27 @@ body {
 body {
   font-family: "Heebo", sans-serif;
   font-weight: 400;
-  font-size: 1.6rem;
-  color: black; }
+  font-size: 1.618rem;
+  color: #2D3142; }
+
+h1 {
+  font-weight: 700;
+  font-size: 4.236rem;
+  text-transform: uppercase; }
 
 h2 {
   font-weight: 700;
-  font-size: 1.5rem;
+  font-size: 2.618rem;
   text-transform: uppercase; }
 
 h3 {
   font-weight: 700;
   font-size: 1.25rem;
   text-transform: uppercase; }
+
+p {
+  font-weight: 400;
+  font-size: 1.618rem; }
 
 .btn, .btn:link, .btn:visited {
   text-decoration: none;
@@ -96,10 +105,23 @@ h3 {
 .btn:active, .btn:focus {
   outline: none; }
 
+header {
+  display: block;
+  padding: 60px 20px;
+  text-align: center;
+  background: #2D3142;
+  color: #fff;
+  width: 100%; }
+  header h2 {
+    text-transform: none;
+    font-weight: 400; }
+
 .info {
   width: 30%; }
   .info .title {
-    padding: 15px; }
+    padding: 15px 15px 8px; }
+    .info .title + p {
+      padding: 0 15px 15px; }
   .info .inner {
     display: flex;
     justify-content: space-between;
@@ -108,12 +130,57 @@ h3 {
     border: 1px solid #cacaca;
     border-radius: 5px;
     padding: 15px; }
+    .info .inner__title {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 10px;
+      width: 100%; }
+      .info .inner__title .icon {
+        position: relative;
+        margin-left: 15px;
+        margin: 0 0 0 auto;
+        padding: 3px 5px 2px 7px;
+        position: relative; }
+        .info .inner__title .icon span {
+          position: relative;
+          z-index: 5;
+          display: none;
+          font-family: "Heebo", sans-serif;
+          font-size: 1rem;
+          text-align: center;
+          color: #fff;
+          padding: 6px 8px 4px;
+          border-radius: 3px;
+          background: rgba(45, 49, 66, 0.8);
+          border: 1px solid #2D3142;
+          position: absolute;
+          bottom: 30px;
+          left: 50%;
+          transform: translateX(-50%);
+          width: 80px; }
+          .info .inner__title .icon span:after {
+            position: absolute;
+            left: 50%;
+            bottom: -5px;
+            transform: translateX(-50%);
+            content: "";
+            display: block;
+            width: 0;
+            height: 0;
+            border-left: 5px solid transparent;
+            border-right: 5px solid transparent;
+            border-top: 5px solid rgba(45, 49, 66, 0.8); }
+        .info .inner__title .icon:hover span {
+          display: block; }
+        .info .inner__title .icon span {
+          width: 115px; }
   .info .list {
     width: 100%;
     list-style-type: none;
     padding: 0; }
     .info .list .list--item {
-      font-size: 1.2rem;
+      font-size: 1.25rem;
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -154,11 +221,14 @@ h3 {
   width: 67%;
   display: block; }
   .code .title {
-    padding: 15px; }
+    padding: 15px 15px 8px; }
+    .code .title + p {
+      padding: 0 15px 15px; }
   .code h2:not([class*="title"]) {
     margin-bottom: 10px;
     font-weight: 400;
-    text-transform: capitalize; }
+    font-size: 1.618rem;
+    text-transform: none; }
   .code .inner {
     border: 1px solid #cacaca;
     border-radius: 5px 8px;
@@ -167,6 +237,7 @@ h3 {
     margin-bottom: 15px; }
   .code .wrapper {
     display: flex;
+    align-items: flex-start;
     background: #f5f5f5;
     padding: 5px;
     border-radius: 5px;
@@ -175,16 +246,74 @@ h3 {
     font-weight: 300; }
     .code .wrapper p {
       width: 90%;
-      min-height: 24px; }
-  .code .copyTextArea {
-    background: #596069;
+      min-height: 24px;
+      height: 20px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis; }
+    .code .wrapper.show p {
+      height: auto !important; }
+    .code .wrapper.show .expandTextArea span:before {
+      content: "Hide "; }
+    .code .wrapper.show .expandTextArea .fa-eye:before {
+      content: '\f070' !important; }
+  .code .copyTextArea,
+  .code .expandTextArea {
     margin: 0 0 0 auto;
-    padding: 0 5px 0 7px; }
-    .code .copyTextArea:hover:after:not(i) {
-      content: "Copy";
-      display: block;
-      font-family: "Heebo", sans-serif; }
+    padding: 3px 5px 2px 7px;
+    position: relative;
+    background: #596069; }
+    .code .copyTextArea span,
+    .code .expandTextArea span {
+      position: relative;
+      z-index: 5;
+      display: none;
+      font-family: "Heebo", sans-serif;
+      font-size: 1rem;
+      text-align: center;
+      color: #fff;
+      padding: 6px 8px 4px;
+      border-radius: 3px;
+      background: rgba(45, 49, 66, 0.8);
+      border: 1px solid #2D3142;
+      position: absolute;
+      bottom: 30px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 80px; }
+      .code .copyTextArea span:after,
+      .code .expandTextArea span:after {
+        position: absolute;
+        left: 50%;
+        bottom: -5px;
+        transform: translateX(-50%);
+        content: "";
+        display: block;
+        width: 0;
+        height: 0;
+        border-left: 5px solid transparent;
+        border-right: 5px solid transparent;
+        border-top: 5px solid rgba(45, 49, 66, 0.8); }
+    .code .copyTextArea:hover span,
+    .code .expandTextArea:hover span {
+      display: block; }
+  .code .expandTextArea span:before {
+    visibility: visible;
+    content: "Show ";
+    color: #fff; }
+  .code .copyTextArea {
+    margin: 0 0 0 5px; }
   .code .copied {
-    background-color: #1b70ee;
-    animation-name: fad-out-blue;
-    animation-duration: 2; }
+    background-color: rgba(27, 112, 238, 0.3);
+    border-color: #1b70ee;
+    transition: all .3s ease-in-out; }
+
+footer {
+  display: block;
+  padding: 20px;
+  text-align: center;
+  background: #2D3142;
+  color: #fff;
+  width: 100%; }
+  footer p {
+    font-size: 1rem; }

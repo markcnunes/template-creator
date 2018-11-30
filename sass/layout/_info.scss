@@ -2,7 +2,11 @@
     width: 30%;
 
     .title {
-        padding: 15px;
+        padding: 15px 15px 8px;
+
+        +p {
+            padding: 0 15px 15px;
+        }
     }
 
     .inner {
@@ -13,6 +17,25 @@
         border: 1px solid $color-gray-3;
         border-radius: 5px;
         padding: 15px;
+
+        &__title {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 10px;
+            width: 100%;
+
+            .icon {
+                position: relative;
+                margin-left: 15px;
+                @include tooltip;
+
+                span {
+                    width: 115px;
+                }
+
+            }
+        }
     }
 
     .list {
@@ -21,7 +44,7 @@
         padding: 0;
 
         .list--item {
-            font-size: $font-size-small;
+            font-size: $font-size-xx-small;
             display: flex;
             justify-content: space-between;
             align-items: center;
