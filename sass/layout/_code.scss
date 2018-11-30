@@ -3,13 +3,18 @@
     display: block;
 
     .title {
-        padding: 15px;
+        padding: 15px 15px 8px;
+
+        +p {
+            padding: 0 15px 15px;
+        }
     }
 
     h2:not([class*="title"]) {
         margin-bottom: 10px;
         font-weight: $font-weight-normal;
-        text-transform: capitalize;
+        font-size: $font-size-default;
+        text-transform: none;
     }
 
     .inner {
@@ -24,6 +29,7 @@
 
     .wrapper {
         display: flex;
+        align-items: flex-start;
         background: $color-gray;
         padding: 5px;
         border-radius: 5px;
@@ -34,26 +40,56 @@
         p {
             width: 90%;
             min-height: 24px;
+            height: 20px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
-    }
 
-    .copyTextArea {
-        background: $color-gray-4;
-        margin: 0 0 0 auto;
-        padding: 0 5px 0 7px;
+        //When the button expandTextArea is clicked
+        &.show {
+            p {
+                height: auto !important;
+            }
 
-        &:hover {
-            &:after:not(i) {
-                content: "Copy";
-                display: block;
-                font-family: $font-primary;
+            .expandTextArea {
+                span {
+                    &:before {
+                        content: "Hide ";
+                    }
+                }
+
+                .fa-eye:before {
+                    content: '\f070' !important;
+                }
             }
         }
     }
 
+    .copyTextArea,
+    .expandTextArea {
+        @include tooltip;
+        background: $color-gray-4;
+    }
+
+    .expandTextArea {
+
+        span {
+            &:before {
+                visibility: visible;
+                content: "Show ";
+                color: $color-white;
+            }
+        }
+    }
+
+    .copyTextArea {
+        margin: 0 0 0 5px;
+    }
+
     .copied {
-        background-color: rgba($color-blue, 1);
-        animation-name: fad-out-blue;
-        animation-duration: 2;
+        background-color: rgba($color-blue, .3);
+        border-color: $color-blue;
+        transition: all .3s ease-in-out;
     }
 }

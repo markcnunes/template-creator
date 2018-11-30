@@ -3,12 +3,16 @@
 const addItemInput = document.querySelector('.addItemInput');
 const addItemButton = document.querySelector('.addItemButton');
 const copyTextArea = document.querySelectorAll('.copyTextArea');
+const expandTextArea = document.querySelectorAll('.expandTextArea');
 const copyText = document.querySelector('.generateCode');
 const listUl = document.querySelector('.list');
 const list = listUl.children;
 let listCopy = listUl.getElementsByTagName('span');
 const panelsBack = document.querySelector('.panels-back p');
 const panelsScss = document.querySelector('.panels-scss p');
+const siteScss = document.querySelector('.site-scss p');
+const homepageCfm = document.querySelector('.homepage-cfm p');
+const codeText = document.querySelectorAll('.code .wrapper p');
 
 
 // GENERATE AND COLLECT INFORMATION FROM INFO TO CODE SECTIONS
@@ -45,7 +49,7 @@ const editText = () => {
   let elements = list;
   for (let i = 0; i < elements.length; i++) {
     elements[i].ondblclick = function () {
-      let textBox = prompt('How would you like to call this element?');
+      let textBox = prompt('How would you like to rename this element?');
       let elementParent = elements[i].parentNode;
       let textEl = elementParent.querySelector('span');
       textEl.textContent = textBox;
@@ -80,14 +84,37 @@ listUl.addEventListener('click', (event) => {
 copyText.addEventListener('click', () => {
   let copyTextPanelBack = "";
   let copyTextPanelScss = "";
+  let copyTextSiteScss = "";
+  let copyTextHomepageCfm = "";
   for (let i = 0; i < listCopy.length; i += 1) {
     if (listCopy[i].parentNode.querySelector("input:checked")) {
-      copyTextPanelBack += listCopy[i].textContent + ',';
-      copyTextPanelScss += listCopy[i].textContent + '+ TEST +';
-    }
+      copyTextPanelBack += `${listCopy[i].textContent},`;
+	  copyTextPanelScss += `//== PANEL: ${listCopy[i].textContent.toUpperCase()}
+	  
+	  .${listCopy[i].textContent.toLowerCase()} .panel	{ } 
+	  
+	  `;
+      copyTextSiteScss += `//== SECTION: ${listCopy[i].textContent.toUpperCase()}
+      
+      .${listCopy[i].textContent.toLowerCase()}	{ } 
+      
+	  
+	  `;
+      copyTextHomepageCfm += `<p>&lt;!--- PANEL:  ${listCopy[i].textContent.toUpperCase()} ---&gt;</p>
+      <br>
+      <p>#cb.renderReusableContent(position='.${listCopy[i].textContent.toLowerCase()}', outerWrapper='</p>
+	  <p>&nbsp;&nbsp;&lt;div class=""${listCopy[i].textContent.toLowerCase()}"&gt;</p>
+	  <p>&nbsp;&nbsp;&nbsp;&nbsp;[content]</p>
+	  <p>&nbsp;&nbsp;&lt;/div&gt;</p>
+	  <p>')#</p>
+	  <br>`;
+	}
+	
   }
-  panelsBack.innerHTML = copyTextPanelBack;
-  panelsScss.innerHTML = copyTextPanelScss;
+  panelsBack.innerText = copyTextPanelBack;
+  panelsScss.innerText = copyTextPanelScss;
+  siteScss.innerText = copyTextSiteScss;
+  homepageCfm.innerHTML = copyTextHomepageCfm;
 });
 
 
@@ -178,3 +205,18 @@ for (let i = 0; i < copyTextArea.length; i += 1) {
 }
 
 
+//Show full code on click
+// for (let i = 0; i < expandTextArea.length; i += 1) {
+// 	expandTextArea[i].addEventListener('click', () => {
+// 		expandTextArea[i].previousElementSibling.style.height = 'auto';	
+// 	});
+// }
+for (let i = 0; i < expandTextArea.length; i += 1) {
+	expandTextArea[i].addEventListener('click', () => {
+		if (expandTextArea[i].parentNode.classList.contains('show')) {
+			expandTextArea[i].parentNode.classList.remove('show');
+		} else {
+			expandTextArea[i].parentNode.classList.add('show');
+		}
+	});
+}
