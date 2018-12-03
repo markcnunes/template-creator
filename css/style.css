@@ -131,18 +131,27 @@ header {
     border-radius: 5px;
     padding: 15px; }
     .info .inner__title {
+      display: block;
+      padding: 0 12px;
+      width: 100%; }
+    .info .inner__description {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 0 10px;
-      width: 100%; }
-      .info .inner__title .icon {
+      padding: 3px 5px;
+      border-radius: 5px;
+      width: 100%;
+      background: #2D3142;
+      color: #fff; }
+      .info .inner__description .icon {
         position: relative;
-        margin-left: 15px;
         margin: 0 0 0 auto;
         padding: 3px 5px 2px 7px;
-        position: relative; }
-        .info .inner__title .icon span {
+        position: relative;
+        margin: 0;
+        display: flex;
+        align-items: center; }
+        .info .inner__description .icon span {
           position: relative;
           z-index: 5;
           display: none;
@@ -159,7 +168,7 @@ header {
           left: 50%;
           transform: translateX(-50%);
           width: 80px; }
-          .info .inner__title .icon span:after {
+          .info .inner__description .icon span:after {
             position: absolute;
             left: 50%;
             bottom: -5px;
@@ -171,9 +180,15 @@ header {
             border-left: 5px solid transparent;
             border-right: 5px solid transparent;
             border-top: 5px solid rgba(45, 49, 66, 0.8); }
-        .info .inner__title .icon:hover span {
+        .info .inner__description .icon:hover span {
           display: block; }
-        .info .inner__title .icon span {
+        .info .inner__description .icon p {
+          font-size: 1.25rem;
+          margin-right: 5px; }
+          .info .inner__description .icon p.bem {
+            letter-spacing: 8px;
+            margin-right: 7px; }
+        .info .inner__description .icon span {
           width: 115px; }
   .info .list {
     width: 100%;
@@ -191,15 +206,21 @@ header {
       background: #fafafa;
       border-radius: 5px;
       border: 1px solid #cacaca; }
+      .info .list .list--item span {
+        margin-left: 5px; }
     .info .list input#id {
       margin: auto 5px auto 0; }
     .info .list .draggingElement {
       opacity: 0.4; }
     .info .list .over {
       border-bottom: 2px dotted #1b70ee; }
+    .info .list .bem-wrapper {
+      margin: 0 0 0 auto; }
+    .info .list .checkbox__element {
+      margin: 0 5px; }
     .info .list .remove {
-      background: #2D3142;
-      margin: auto 0 auto auto; }
+      background: #596069;
+      margin: 0 0 0 10px; }
   .info hr {
     width: 95%;
     margin: 6px auto 10px; }
