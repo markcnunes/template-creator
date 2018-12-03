@@ -19,16 +19,38 @@
         padding: 15px;
 
         &__title {
+            display: block;
+            padding: 0 12px;
+            width: 100%;
+
+        }
+
+        &__description {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 0 10px;
+            padding: 3px 5px;
+            border-radius: 5px;
             width: 100%;
+            background: $color-black;
+            color: $color-white;
 
             .icon {
                 position: relative;
-                margin-left: 15px;
                 @include tooltip;
+                margin: 0;
+                display: flex;
+                align-items: center;
+                
+                p {
+                    font-size: $font-size-xx-small;
+                    margin-right: 5px;
+
+                    &.bem {
+                        letter-spacing: 8px;
+                        margin-right: 7px;
+                    }
+                }
 
                 span {
                     width: 115px;
@@ -55,6 +77,10 @@
             background: $color-gray-5;
             border-radius: 5px;
             border: 1px solid $color-gray-3;
+
+            span {
+                margin-left: 5px;
+            }
         }
 
         input#id {
@@ -69,9 +95,17 @@
             border-bottom: 2px dotted $color-blue;
         }
 
+        .bem-wrapper {
+            margin: 0 0 0 auto;
+        }
+
+        .checkbox__element {
+            margin: 0 5px;
+        }
+
         .remove {
-            background: $color-black;
-            margin: auto 0 auto auto;
+            background: $color-gray-4;
+            margin: 0 0 0 10px;
         }
     }
 
