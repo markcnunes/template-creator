@@ -1,6 +1,6 @@
 # Template Creator
 
-## Code lines
+## Command lines
 
 Check node version:
 ```
