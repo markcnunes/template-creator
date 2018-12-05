@@ -1,8 +1,10 @@
 # Template Creator
-* [Website](http://markclausnunes.com/template-creator/) 
+This project has been created with the purporse to skip having to write manually the CFM and SCSS markups for new website elements.
 
-## Command lines
+* [Template Creato Website](http://markclausnunes.com/template-creator/) 
 
+## Getting Started
+### Installing
 Check node version:
 ```
 node -v
@@ -32,3 +34,17 @@ Install Automatically reloading a page on files change
 ```
 sudo npm install live-server -g
 ```
+## Built With
+
+* JavaScript
+* SCSS
+* HTML
+
+## Author
+
+* **Mark Claus Nunes**
+
+## Acknowledgments
+
+* Inspiration * [Vincent Wings - Template Creator](https://github.com/VincentWings) 
+* Drag and Drop code source * [Jeremy Bartels - Drag & Drop From Scratch](https://codepen.io/jbartels/pen/yPemMB)
