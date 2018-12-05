@@ -1,5 +1,5 @@
 # Template Creator
-This project has been created with the purporse to skip having to write manually the CFM and SCSS markups for new website elements.
+This project has been created with the purporse to generate CFM and SCSS markups for new website elements.
 
 * [Template Creator Website](http://markclausnunes.com/template-creator/) 
 
