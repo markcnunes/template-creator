@@ -94,9 +94,7 @@ const editText = () => {
 	for (let i = 0; i < elements.length; i++) {
 		elements[i].ondblclick = function () {
 			let textBox = prompt('How would you like to rename this element?');
-			let elementParent = elements[i].parentNode;
-			let textEl = elementParent.querySelector('span');
-			textEl.textContent = textBox;
+			this.querySelector('span').textContent = textBox;
 		}
 	};
 }
@@ -161,8 +159,8 @@ copyText.addEventListener('click', () => {
 				//Homepage CFM
 				copyTextHomepageCfm += `<p>&lt;!--- PANEL:  ${el.textContent.toUpperCase()} ---&gt;</p>
 				<br>
-				<p>#cb.renderReusableContent(position='${el.textContent}', outerWrapper='</p>
-				<p>&nbsp;&nbsp;&lt;div class=""${el.textContent.toLowerCase().replace(/\s/g, "-")}"&gt;</p>
+				<p>#cb.renderReusableContent(position='${el.textContent.replace(/\s/g, "")}', outerWrapper='</p>
+				<p>&nbsp;&nbsp;&lt;div class="${el.textContent.toLowerCase().replace(/\s/g, "-")}"&gt;</p>
 				<p>&nbsp;&nbsp;&nbsp;&nbsp;[content]</p>
 				<p>&nbsp;&nbsp;&lt;/div&gt;</p>
 				<p>')#</p>
@@ -191,8 +189,8 @@ copyText.addEventListener('click', () => {
 				//Homepage CFM
 				copyTextHomepageCfm += `<p>&lt;!--- PANEL:  ${el.textContent.toUpperCase()} ---&gt;</p>
 				<br>
-				<p>#cb.renderReusableContent(position='${el.textContent}', outerWrapper='</p>
-				<p>&nbsp;&nbsp;&lt;div class=""${el.textContent.toLowerCase().replace(/\s/g, "__")}"&gt;</p>
+				<p>#cb.renderReusableContent(position='${el.textContent.replace(/\s/g, "")}', outerWrapper='</p>
+				<p>&nbsp;&nbsp;&lt;div class="${el.textContent.toLowerCase().replace(/\s/g, "__")}"&gt;</p>
 				<p>&nbsp;&nbsp;&nbsp;&nbsp;[content]</p>
 				<p>&nbsp;&nbsp;&lt;/div&gt;</p>
 				<p>')#</p>
@@ -221,8 +219,8 @@ copyText.addEventListener('click', () => {
 				//Homepage CFM
 				copyTextHomepageCfm += `<p>&lt;!--- PANEL:  ${el.textContent.toUpperCase()} ---&gt;</p>
 				<br>
-				<p>#cb.renderReusableContent(position='${el.textContent}', outerWrapper='</p>
-				<p>&nbsp;&nbsp;&lt;div class=""${el.textContent.toLowerCase().replace(/\s/g, "--")}"&gt;</p>
+				<p>#cb.renderReusableContent(position='${el.textContent.replace(/\s/g, "")}', outerWrapper='</p>
+				<p>&nbsp;&nbsp;&lt;div class="${el.textContent.toLowerCase().replace(/\s/g, "--")}"&gt;</p>
 				<p>&nbsp;&nbsp;&nbsp;&nbsp;[content]</p>
 				<p>&nbsp;&nbsp;&lt;/div&gt;</p>
 				<p>')#</p>
