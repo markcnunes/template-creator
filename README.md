@@ -1,7 +1,7 @@
 # Template Creator
 This project has been created with the purporse to skip having to write manually the CFM and SCSS markups for new website elements.
 
-* [Template Creato Website](http://markclausnunes.com/template-creator/) 
+* [Template Creator Website](http://markclausnunes.com/template-creator/) 
 
 ## Getting Started
 ### Installing
