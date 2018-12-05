@@ -1,3 +1,14 @@
+/*=============================================================================
+ |      Project:  TEMPLATE CREATOR
+ | 
+ |  Description:  This project has been created with the purporse to
+ |                generate CFM and SCSS markups for new website elements.
+ |
+ |       Author:  MARK CLAUS NUNES
+ |    
+ |     Due Date:  05/12/2018
+ *===========================================================================*/
+
 // GLOBAL VARIABLES
 // --------------------------------------------------
 const addItemInput = document.querySelector('.addItemInput');
