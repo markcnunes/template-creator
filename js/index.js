@@ -6,7 +6,9 @@
  |
  |       Author:  MARK CLAUS NUNES
  |    
- |     Due Date:  05/12/2018
+ |     Created - Date:  05/12/2018
+ |     Last Modified - Date:  19/12/2018
+ |     Version: 1.3
  *===========================================================================*/
 
 // GLOBAL VARIABLES
@@ -19,6 +21,9 @@ const copyText = document.querySelector('.generateCode');
 const listUl = document.querySelector('.list');
 const list = listUl.children;
 let listCopy = listUl.getElementsByTagName('span');
+const bemSelect = listUl.getElementsByClassName('bem__select');
+const bemSelectItem = listUl.getElementsByClassName('bem__select-item');
+const listWord = listUl.getElementsByClassName('word__text');
 const panelsBack = document.querySelector('.panels-back p');
 const panelsScss = document.querySelector('.panels-scss p');
 const siteScss = document.querySelector('.site-scss p');
@@ -45,38 +50,7 @@ const attachItemListButton = (item) => {
 	checkbox.checked = "true";
 	//checkbox.id = "id";
 	item.insertBefore(checkbox, item.childNodes[0] || null);
-
-	//BEM wrapper
-	let bemWrapper = document.createElement('form');
-	bemWrapper.className = 'bem-wrapper';
-	bemWrapper.textContent = '';
-	item.appendChild(bemWrapper);
-
-	// //Checkbox - BEM - Block
-	let checkboxBlock = document.createElement('input');
-	checkboxBlock.type = 'radio';
-	checkboxBlock.className = 'checkbox__block';
-	checkboxBlock.title = 'Block';
-	checkboxBlock.name = "radio";
-	checkboxBlock.checked = "true";
-	bemWrapper.appendChild(checkboxBlock);
-
-	//Checkbox - BEM - Element
-	let checkboxElement = document.createElement('input');
-	checkboxElement.type = 'radio';
-	checkboxElement.className = 'checkbox__element';
-	checkboxElement.title = 'Element';
-	checkboxElement.name = "radio";
-	bemWrapper.appendChild(checkboxElement);
-
-	//Checkbox - BEM - Modifier
-	let checkboxModifier = document.createElement('input');
-	checkboxModifier.type = 'radio';
-	checkboxModifier.className = 'checkbox__modifier';
-	checkboxModifier.title = 'Modifier';
-	checkboxModifier.name = "radio";
-	bemWrapper.appendChild(checkboxModifier);
-
+		
 	//Remove button
 	let remove = document.createElement('button');
 	remove.className = 'remove btn far fa-trash-alt';
@@ -84,21 +58,50 @@ const attachItemListButton = (item) => {
 	remove.textContent = '';
 	item.appendChild(remove);
 };
-for (let i = 0; i < list.length; i += 1) {
-	attachItemListButton(list[i]);
-}
+//Create divs around the words and add BEM targets
+let splitWords = (item) => {
+	let text = item.textContent.split(" ").map(function (word) {
+		if (word ===  item.textContent.split(" ")[0]) {
+			return `<div class="word">
+						<div class="word__text word__bem--block" >${word}</div>
+					</div>`;
+		} else {
+		return `<div class="word">
+					<form>
+						<input type="radio" name="bem" title="Block" value="1" class="bem__select-item bem__select-item--block" checked >
+						<input type="radio" name="bem" title="Element" value="2" class="bem__select-item bem__select-item--element"  >
+						<input type="radio" name="bem" title="Modifier" value="3" class="bem__select-item bem__select-item--modifier"  >
+					</form>	
+					<div class="word__text word__bem--block" >${word}</div>
+				</div>`;}
+	}).join(" ");
+	item.innerHTML = text;
+};
 
-//Edit Text on double click
+//Edit/Rename Text on double click
 const editText = () => {
 	let elements = list;
 	for (let i = 0; i < elements.length; i++) {
 		elements[i].ondblclick = function () {
 			let textBox = prompt('How would you like to rename this element?');
-			this.querySelector('span').textContent = textBox;
+			if (textBox === null) {
+				console.log('emp');
+				return; //break out of the function early
+			} else if (textBox) {
+				this.querySelector('span').textContent = textBox;
+				splitWords(this.querySelector('span'));
+			}
 		}
 	};
 }
 editText();
+
+for (let i = 0; i < list.length; i += 1) {
+	attachItemListButton(list[i]);
+}
+for (let i = 0; i < listCopy.length; i ++) {
+	splitWords(listCopy[i]);
+}
 
 //Add item from the input field to the list
 addItemButton.addEventListener('click', () => {
@@ -122,117 +125,243 @@ listUl.addEventListener('click', (event) => {
 	}
 });
 
-//Copy text from checked items
+// Change BEM classes of each word by radio buttons
+for (let i = 0; i < bemSelectItem.length; i++) {
+	bemSelectItem[i].addEventListener('click', (event) => {
+		//Values: Block(1), Element(2) and Modifier(3)
+		if (bemSelectItem[i].value === '1' ) {
+			bemSelectItem[i].parentNode.parentNode.lastElementChild.className = 'word__text word__bem--block';
+		} else if (bemSelectItem[i].value === '2' ) {
+			bemSelectItem[i].parentNode.parentNode.lastElementChild.className = 'word__text word__bem--element';
+		} else if (bemSelectItem[i].value === '3' ) {
+			bemSelectItem[i].parentNode.parentNode.lastElementChild.className = 'word__text word__bem--modifier';
+		}
+	});
+}	
+
+// COPY TEXT FROM CHECKED ITEMS
+// --------------------------------------------------
 copyText.addEventListener('click', () => {
 	let copyTextPanelBack = "";
 	let copyTextPanelScss = "";
+	let copyTextPanelScssSecondLine = "";
 	let copyTextSiteScss = "";
 	let copyTextHomepageCfm = "";
+	
+	for (let a = 0; a < listWord.length; a += 1) { 
+		let elW = listWord[a];
+		console.log(elW);
+		//Select the span div wrapping all words
+		let elSpan = elW.parentNode.parentNode;
+		let elLastChild = elW.parentNode.parentNode.lastElementChild.lastElementChild;
+		let elFirstChild = elW.parentNode.parentNode.firstElementChild.lastElementChild;
+	
 
-	for (let i = 0; i < listCopy.length; i += 1) {
 		//If Checked
-		if (listCopy[i].parentNode.querySelector(".checkbox:checked")) {
+		if (elW.parentNode.parentNode.parentNode.querySelector(".checkbox:checked")) {
+			console.log('it is checked');
 
-			let el = listCopy[i];
-
-			// If Blcok - BEM
-			if (el.parentNode.querySelector(".checkbox__block:checked")) {
-
-				//Panel Back Office
-				copyTextPanelBack += `${el.textContent.replace(/\s/g, "")},`;
-
-				//Panel SCSS
-				copyTextPanelScss += `//== PANEL: ${el.textContent.toUpperCase()}
+			//Panel Back Office
+			const fnPanelBackOffice = () => {
+				//Add coma to the last child
+				if (elW === elLastChild) { 
+					copyTextPanelBack += `${elW.textContent.replace(/^\w/, c => c.toUpperCase())},`;
+				} else {
+				copyTextPanelBack += `${elW.textContent.replace(/^\w/, c => c.toUpperCase())}`;
+				}
+			};
+			fnPanelBackOffice();
 			
-				.${el.textContent.toLowerCase().replace(/\s/g, "-")} .panel	{ } 
-				
+			//Panel SCSS
+			const fnPanelScss = () => {
+				if (elW === elFirstChild) { 
+					copyTextPanelScss += `//== PANEL: ${elW.textContent.toUpperCase()}`;
+				} else if (elW === elLastChild) {
+					
+					copyTextPanelScss += ` ${elW.textContent.toUpperCase()}
+					
+					${copyTextPanelScssSecondLine}`;				
+				} else {
+					copyTextPanelScss += ` ${elW.textContent.toUpperCase()}`;
+				}
+			};
+			//Panel SCSS - Function to create second line of Panel SCSS
+			const fnPanelScssSecondLine = () => {
+				if (elW === elFirstChild) { 
+					copyTextPanelScssSecondLine = `.${elW.textContent.toLowerCase()}`;
+				} else if (elW === elLastChild) {
+					if (elW.classList.contains("word__bem--block")) {
+						copyTextPanelScssSecondLine += `-${elW.textContent.toLowerCase()} .panel	{ }
+					
 
-				`;
+						`;
+					} else if (elW.classList.contains("word__bem--element")) {
+						copyTextPanelScssSecondLine += `__${elW.textContent.toLowerCase()} .panel	{ }
+					
 
-				//Site SCSS
-				copyTextSiteScss += `//== SECTION: ${el.textContent.toUpperCase()}
-				
-				.${el.textContent.toLowerCase().replace(/\s/g, "-")}	{ } 
-				
-				
-				`;
-				//Homepage CFM
-				copyTextHomepageCfm += `<p>&lt;!--- PANEL:  ${el.textContent.toUpperCase()} ---&gt;</p>
-				<br>
-				<p>#cb.renderReusableContent(position='${el.textContent.replace(/\s/g, "")}', outerWrapper='</p>
-				<p>&nbsp;&nbsp;&lt;div class="${el.textContent.toLowerCase().replace(/\s/g, "-")}"&gt;</p>
-				<p>&nbsp;&nbsp;&nbsp;&nbsp;[content]</p>
-				<p>&nbsp;&nbsp;&lt;/div&gt;</p>
-				<p>')#</p>
-				<br>`;
-			}
-			// If Element - BEM
-			if (el.parentNode.querySelector(".checkbox__element:checked")) {
+						`;
+					} else if (elW.classList.contains("word__bem--modifier")) {
+						copyTextPanelScssSecondLine += `--${elW.textContent.toLowerCase()} .panel	{ }
+					
 
-				//Panel Back Office
-				copyTextPanelBack += `${el.textContent.replace(/\s/g, "")},`;
+						`;
+					}
+				} else {
+					if (elW.classList.contains("word__bem--block")) {
+						copyTextPanelScssSecondLine += `-${elW.textContent.toLocaleLowerCase()}`;
+					} else if (elW.classList.contains("word__bem--element")) {
+						copyTextPanelScssSecondLine += `__${elW.textContent.toLocaleLowerCase()}`;
+					} else if (elW.classList.contains("word__bem--modifier")) {
+						copyTextPanelScssSecondLine += `--${elW.textContent.toLocaleLowerCase()}`;
+					}
+				}
+			};
+			fnPanelScssSecondLine();	
+			fnPanelScss();
 
-				//Panel SCSS
-				copyTextPanelScss += `//== PANEL: ${el.textContent.toUpperCase()}
+			//Site SCSS
+			const fnSiteScss = () => {
+				if (elW === elFirstChild) { 
+					copyTextSiteScss += `//== SECTION: ${elW.textContent.toUpperCase()}`;
+				} else if (elW === elLastChild) {
+					
+					copyTextSiteScss += ` ${elW.textContent.toUpperCase()}
+					
+					.${copyTextSiteScssSecondLine}`;				
+				} else {
+					copyTextSiteScss += ` ${elW.textContent.toUpperCase()}`;
+				}
+			};
+			//Site SCSS - Function to create second line of Site SCSS
+			const fnSiteScssSecondLine = () => {
+				if (elW === elFirstChild) { 
+					copyTextSiteScssSecondLine = `${elW.textContent.toLowerCase()}`;
+				} else if (elW === elLastChild) {
+					if (elW.classList.contains("word__bem--block")) {
+						copyTextSiteScssSecondLine += `-${elW.textContent.toLocaleLowerCase()} { }
+					
+
+						`;
+					} else if (elW.classList.contains("word__bem--element")) {
+						copyTextSiteScssSecondLine += `__${elW.textContent.toLocaleLowerCase()} { }
+					
+
+						`;
+					} else if (elW.classList.contains("word__bem--modifier")) {
+						copyTextSiteScssSecondLine += `--${elW.textContent.toLocaleLowerCase()} { }
+					
+
+						`;
+					}
+				} else {
+					if (elW.classList.contains("word__bem--block")) {
+						copyTextSiteScssSecondLine += `-${elW.textContent.toLocaleLowerCase()}`;
+					} else if (elW.classList.contains("word__bem--element")) {
+						copyTextSiteScssSecondLine += `__${elW.textContent.toLocaleLowerCase()}`;
+					} else if (elW.classList.contains("word__bem--modifier")) {
+						copyTextSiteScssSecondLine += `--${elW.textContent.toLocaleLowerCase()}`;
+					}
+				}
+			};
+			fnSiteScssSecondLine();	
+			fnSiteScss();
+
+			//Homepage CFM
+			/*
+			|  The following code is not aligned properly because it has
+			|  to work with css white-space to the output looks right
+			*/
+			const fnHomepageCfm = () => {
+				if (elW === elFirstChild) { 
+					copyTextHomepageCfm += `<!--- PANEL: ${elW.textContent.toUpperCase()}`;
+				} else if (elW === elLastChild) {
+					
+					copyTextHomepageCfm += ` ${elW.textContent.toUpperCase()} --->
+					
+#cb.renderReusableContent(position='${copyTextHomepageCfmSecondLine}`;				
+				} else {
+					copyTextHomepageCfm += ` ${elW.textContent.toUpperCase()}`;
+				}
+			};
+			//Homepage CFM - Function to create second line of Homepage CFM
+			const fnHomepageCfmSecondLine = () => {
+				if (elW === elFirstChild) { 
+					copyTextHomepageCfmSecondLine = `${elW.textContent.replace(/^\w/, c => c.toUpperCase())}`;
+				} else if (elW === elLastChild) {
+					if (elW.classList.contains("word__bem--block")) {
+						copyTextHomepageCfmSecondLine += `-${elW.textContent.replace(/^\w/, c => c.toUpperCase())}', outerWrapper='
+	<div class="${copyTextHomepageCfmThirdLine}`;
+					} else if (elW.classList.contains("word__bem--element")) {
+						copyTextHomepageCfmSecondLine += `__${elW.textContent.replace(/^\w/, c => c.toUpperCase())}', outerWrapper='
+	<div class="${copyTextHomepageCfmThirdLine}`;
+					} else if (elW.classList.contains("word__bem--modifier")) {
+						copyTextHomepageCfmSecondLine += `--${elW.textContent.replace(/^\w/, c => c.toUpperCase())}', outerWrapper='
+	<div class="${copyTextHomepageCfmThirdLine}`;
+					}
+				} else {
+					if (elW.classList.contains("word__bem--block")) {
+						copyTextHomepageCfmSecondLine += `-${elW.textContent.replace(/^\w/, c => c.toUpperCase())}`;
+					} else if (elW.classList.contains("word__bem--element")) {
+						copyTextHomepageCfmSecondLine += `__${elW.textContent.replace(/^\w/, c => c.toUpperCase())}`;
+					} else if (elW.classList.contains("word__bem--modifier")) {
+						copyTextHomepageCfmSecondLine += `--${elW.textContent.replace(/^\w/, c => c.toUpperCase())}`;
+					}
+				}
+			};
+			//Homepage CFM - Function to create third line of Homepage CFM
+			const fnHomepageCfmThirdLine = () => {
+				if (elW === elFirstChild) { 
+					copyTextHomepageCfmThirdLine = `${elW.textContent.toLowerCase()}`;
+				} else if (elW === elLastChild) {
+					if (elW.classList.contains("word__bem--block")) {
+						copyTextHomepageCfmThirdLine += `-${elW.textContent.toLowerCase()}">
+		[content]
+	</div>
+')#
+
+
+`;
+					} else if (elW.classList.contains("word__bem--element")) {
+						copyTextHomepageCfmThirdLine += `__${elW.textContent.toLowerCase()}">
+		[content]
+	</div>
+')#
+
+
+`;
+					} else if (elW.classList.contains("word__bem--modifier")) {
+						copyTextHomepageCfmThirdLine += `--${elW.textContent.toLowerCase()}">
+		[content]
+	</div>
+')#
+
+
+`;
+					}
+				} else {
+					if (elW.classList.contains("word__bem--block")) {
+						copyTextHomepageCfmThirdLine += `-${elW.textContent.toLowerCase()}`;
+					} else if (elW.classList.contains("word__bem--element")) {
+						copyTextHomepageCfmThirdLine += `__${elW.textContent.toLowerCase()}`;
+					} else if (elW.classList.contains("word__bem--modifier")) {
+						copyTextHomepageCfmThirdLine += `--${elW.textContent.toLowerCase()}`;
+					}
+				}
+			};
+			fnHomepageCfmThirdLine();	
+			fnHomepageCfmSecondLine();	
+			fnHomepageCfm();
 			
-				.${el.textContent.toLowerCase().replace(/\s/g, "__")} .panel	{ } 
-				
-
-				`;
-				//Site SCSS
-				copyTextSiteScss += `//== SECTION: ${el.textContent.toUpperCase()}
-				
-				.${el.textContent.toLowerCase().replace(/\s/g, "__")}	{ } 
-				
-				
-				`;
-				//Homepage CFM
-				copyTextHomepageCfm += `<p>&lt;!--- PANEL:  ${el.textContent.toUpperCase()} ---&gt;</p>
-				<br>
-				<p>#cb.renderReusableContent(position='${el.textContent.replace(/\s/g, "")}', outerWrapper='</p>
-				<p>&nbsp;&nbsp;&lt;div class="${el.textContent.toLowerCase().replace(/\s/g, "__")}"&gt;</p>
-				<p>&nbsp;&nbsp;&nbsp;&nbsp;[content]</p>
-				<p>&nbsp;&nbsp;&lt;/div&gt;</p>
-				<p>')#</p>
-				<br>`;
-			}
-			// If Modifier - BEM
-			if (el.parentNode.querySelector(".checkbox__modifier:checked")) {
-
-				//Panel Back Office
-				copyTextPanelBack += `${el.textContent.replace(/\s/g, "")},`;
-
-				//Panel SCSS
-				copyTextPanelScss += `//== PANEL: ${el.textContent.toUpperCase()}
 			
-				.${el.textContent.toLowerCase().replace(/\s/g, "--")} .panel	{ } 
-				
-
-				`;
-				//Site SCSS
-				copyTextSiteScss += `//== SECTION: ${el.textContent.toUpperCase()}
-				
-				.${el.textContent.toLowerCase().replace(/\s/g, "--")}	{ } 
-				
-				
-				`;
-				//Homepage CFM
-				copyTextHomepageCfm += `<p>&lt;!--- PANEL:  ${el.textContent.toUpperCase()} ---&gt;</p>
-				<br>
-				<p>#cb.renderReusableContent(position='${el.textContent.replace(/\s/g, "")}', outerWrapper='</p>
-				<p>&nbsp;&nbsp;&lt;div class="${el.textContent.toLowerCase().replace(/\s/g, "--")}"&gt;</p>
-				<p>&nbsp;&nbsp;&nbsp;&nbsp;[content]</p>
-				<p>&nbsp;&nbsp;&lt;/div&gt;</p>
-				<p>')#</p>
-				<br>`;
-			}
 		}
 
+
 	}
-	panelsBack.innerText = copyTextPanelBack;
+	//Copy information from the previous code and inserting in the divs
+	panelsBack.innerText = copyTextPanelBack.substr(0, copyTextPanelBack.length-1);
 	panelsScss.innerText = copyTextPanelScss;
 	siteScss.innerText = copyTextSiteScss;
-	homepageCfm.innerHTML = copyTextHomepageCfm;
+	homepageCfm.innerText = copyTextHomepageCfm;
 });
 
 
@@ -323,7 +452,6 @@ for (let i = 0; i < copyTextArea.length; i += 1) {
 		copyAnimation(textEl);
 	});
 }
-
 
 //Show full code on click
 for (let i = 0; i < expandTextArea.length; i += 1) {

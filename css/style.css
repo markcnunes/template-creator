@@ -6,7 +6,9 @@
  |
  |       Author:  MARK CLAUS NUNES
  |    
- |     Due Date:  05/12/2018
+ |     Created - Date:  05/12/2018
+ |     Last Modified - Date:  19/12/2018
+ |     Version: 1.3
  *===========================================================================*/
 /*
 0 - 600px:      Phone
@@ -153,6 +155,22 @@ header {
       width: 100%;
       background: #2D3142;
       color: #fff; }
+      .info .inner__description .bem {
+        display: flex;
+        margin-right: 5px; }
+        .info .inner__description .bem strong {
+          font-size: 1.25rem;
+          margin: 0 5px 0 3px; }
+        .info .inner__description .bem p {
+          font-size: 1.25rem;
+          background: #4d535b;
+          border-radius: 3px;
+          padding: 0 3px;
+          margin-right: 5px; }
+          .info .inner__description .bem p:nth-of-type(2) {
+            background: #1b70ee; }
+          .info .inner__description .bem p:nth-of-type(3) {
+            background: #3aa077; }
       .info .inner__description .icon {
         position: relative;
         margin: 0 0 0 auto;
@@ -192,12 +210,6 @@ header {
             border-top: 5px solid rgba(45, 49, 66, 0.8); }
         .info .inner__description .icon:hover span {
           display: block; }
-        .info .inner__description .icon p {
-          font-size: 1.25rem;
-          margin-right: 5px; }
-          .info .inner__description .icon p.bem {
-            letter-spacing: 8px;
-            margin-right: 7px; }
         .info .inner__description .icon span {
           width: 115px; }
   .info .list {
@@ -217,9 +229,28 @@ header {
       border-radius: 5px;
       border: 1px solid #cacaca; }
       .info .list .list--item span {
-        margin-left: 5px; }
-    .info .list input#id {
-      margin: auto 5px auto 0; }
+        margin-left: 15px;
+        width: 100%;
+        display: flex; }
+        .info .list .list--item span .word {
+          padding: 3px 0;
+          display: flex;
+          flex-direction: column;
+          justify-content: flex-end; }
+          .info .list .list--item span .word:not(:first-of-type) {
+            margin-left: 5px; }
+          .info .list .list--item span .word__text {
+            border-radius: 3px;
+            background: #4d535b;
+            color: #fff;
+            padding: 0 3px; }
+          .info .list .list--item span .word__bem--element {
+            background: #1b70ee; }
+          .info .list .list--item span .word__bem--modifier {
+            background: #3aa077; }
+        .info .list .list--item span form input[type="radio"] {
+          width: 10px;
+          height: 10px; }
     .info .list .draggingElement {
       opacity: 0.4; }
     .info .list .over {
@@ -288,6 +319,8 @@ header {
       content: "Hide "; }
     .code .wrapper.show .expandTextArea .fa-eye:before {
       content: '\f070' !important; }
+  .code .homepage-cfm p {
+    white-space: pre; }
   .code .copyTextArea,
   .code .expandTextArea {
     margin: 0 0 0 auto;

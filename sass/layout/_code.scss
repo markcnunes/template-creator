@@ -44,6 +44,7 @@
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
+
         }
 
         //When the button expandTextArea is clicked
@@ -64,6 +65,10 @@
                 }
             }
         }
+    }
+
+    .homepage-cfm p {
+        white-space: pre;
     }
 
     .copyTextArea,
