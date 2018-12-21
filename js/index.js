@@ -7,8 +7,8 @@
  |       Author:  MARK CLAUS NUNES
  |    
  |     Created - Date:  05/12/2018
- |     Last Modified - Date:  19/12/2018
- |     Version: 1.3
+ |     Last Modified - Date:  21/12/2018
+ |     Version: 1.3.01
  *===========================================================================*/
 
 // GLOBAL VARIABLES
@@ -112,32 +112,35 @@ addItemButton.addEventListener('click', () => {
 	li.appendChild(span);
 	attachItemListButton(li);
 	addItemInput.value = '';
+	splitWords(span);
+	activeChangeBem();
 });
 
 //Remove button
 listUl.addEventListener('click', (event) => {
 	if (event.target.tagName == 'BUTTON') {
-		//if (event.target.className == 'remove') {
 		let li = event.target.parentNode;
 		let ul = li.parentNode;
 		ul.removeChild(li);
-		//}
 	}
 });
 
-// Change BEM classes of each word by radio buttons
-for (let i = 0; i < bemSelectItem.length; i++) {
-	bemSelectItem[i].addEventListener('click', (event) => {
-		//Values: Block(1), Element(2) and Modifier(3)
-		if (bemSelectItem[i].value === '1' ) {
-			bemSelectItem[i].parentNode.parentNode.lastElementChild.className = 'word__text word__bem--block';
-		} else if (bemSelectItem[i].value === '2' ) {
-			bemSelectItem[i].parentNode.parentNode.lastElementChild.className = 'word__text word__bem--element';
-		} else if (bemSelectItem[i].value === '3' ) {
-			bemSelectItem[i].parentNode.parentNode.lastElementChild.className = 'word__text word__bem--modifier';
-		}
-	});
-}	
+const activeChangeBem = () => {
+	// Change BEM classes of each word by radio buttons
+	for (let i = 0; i < bemSelectItem.length; i++) {
+		bemSelectItem[i].addEventListener('click', () => {
+			//Values: Block(1), Element(2) and Modifier(3)
+			if (bemSelectItem[i].value === '1' ) {
+				bemSelectItem[i].parentNode.parentNode.lastElementChild.className = 'word__text word__bem--block';
+			} else if (bemSelectItem[i].value === '2' ) {
+				bemSelectItem[i].parentNode.parentNode.lastElementChild.className = 'word__text word__bem--element';
+			} else if (bemSelectItem[i].value === '3' ) {
+				bemSelectItem[i].parentNode.parentNode.lastElementChild.className = 'word__text word__bem--modifier';
+			}
+		});
+	}	
+};	
+activeChangeBem();
 
 // COPY TEXT FROM CHECKED ITEMS
 // --------------------------------------------------
