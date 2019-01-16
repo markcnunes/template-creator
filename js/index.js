@@ -7,8 +7,8 @@
  |       Author:  MARK CLAUS NUNES
  |    
  |     Created - Date:  05/12/2018
- |     Last Modified - Date:  21/12/2018
- |     Version: 1.3.01
+ |     Last Modified - Date:  16/01/2019
+ |     Version: 1.3.02
  *===========================================================================*/
 
 // GLOBAL VARIABLES
@@ -158,6 +158,7 @@ copyText.addEventListener('click', () => {
 		let elSpan = elW.parentNode.parentNode;
 		let elLastChild = elW.parentNode.parentNode.lastElementChild.lastElementChild;
 		let elFirstChild = elW.parentNode.parentNode.firstElementChild.lastElementChild;
+		let elGrandparent = elW.parentNode.parentNode;
 	
 
 		//If Checked
@@ -173,8 +174,8 @@ copyText.addEventListener('click', () => {
 				copyTextPanelBack += `${elW.textContent.replace(/^\w/, c => c.toUpperCase())}`;
 				}
 			};
-			fnPanelBackOffice();
-			
+	
+	
 			//Panel SCSS
 			const fnPanelScss = () => {
 				if (elW === elFirstChild) { 
@@ -219,8 +220,16 @@ copyText.addEventListener('click', () => {
 					}
 				}
 			};
-			fnPanelScssSecondLine();	
-			fnPanelScss();
+			//Panel SCSS - If there is only one word
+			const fnPanelScssOneEl = () => {
+				copyTextPanelScss += `//== PANEL: ${elW.textContent.toUpperCase()}
+				
+				.${elW.textContent.toLowerCase()} .panel	{ }
+					
+
+				`;
+			};
+		
 
 			//Site SCSS
 			const fnSiteScss = () => {
@@ -266,8 +275,16 @@ copyText.addEventListener('click', () => {
 					}
 				}
 			};
-			fnSiteScssSecondLine();	
-			fnSiteScss();
+			//Site SCSS - If there is only one word
+			const fnSiteScssOneEl = () => {
+				copyTextSiteScss += `//== SECTION: ${elW.textContent.toUpperCase()}
+					
+				.${elW.textContent.toLocaleLowerCase()} { }
+					
+
+				`;
+			};
+			
 
 			//Homepage CFM
 			/*
@@ -351,14 +368,41 @@ copyText.addEventListener('click', () => {
 					}
 				}
 			};
-			fnHomepageCfmThirdLine();	
-			fnHomepageCfmSecondLine();	
-			fnHomepageCfm();
-			
-			
+			//Homepage CFM - If there is only one word
+			const fnHomepageCfmOneEl = () => {
+				copyTextHomepageCfm += `<!--- PANEL: ${elW.textContent.toUpperCase()} --->
+					
+#cb.renderReusableContent(position='${elW.textContent.toLowerCase()}">
+		[content]
+	</div>
+')#
+
+
+`;
+			};
+
+
+			fnPanelBackOffice();
+			// Check the number of words
+			if (elGrandparent.childElementCount > 1 ) {
+				fnPanelScssSecondLine();
+				fnPanelScss();
+
+				fnSiteScssSecondLine();	
+				fnSiteScss();
+
+				fnHomepageCfmThirdLine();	
+				fnHomepageCfmSecondLine();	
+				fnHomepageCfm();
+			} else {
+				fnPanelScssOneEl();
+
+				fnSiteScssOneEl();
+
+				fnHomepageCfmOneEl();
+			}
+
 		}
-
-
 	}
 	//Copy information from the previous code and inserting in the divs
 	panelsBack.innerText = copyTextPanelBack.substr(0, copyTextPanelBack.length-1);
